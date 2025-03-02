@@ -162,7 +162,50 @@ You can follow same procedure in the official  AWS document [Getting started wit
      --attach-policy-arn=arn:aws:iam::711387118002:policy/AWSLoadBalancerControllerIAMPolicy \
      --approve
     ```
-   
+
+Incare if policy deleted attach this below policy
+
+
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeSecurityGroups",
+                "ec2:CreateSecurityGroup",
+                "ec2:DeleteSecurityGroup",
+                "ec2:DescribeInstances",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeVpcs",
+                "ec2:DescribeRouteTables",
+                "ec2:DescribeNetworkInterfaces",
+                "elasticloadbalancing:CreateLoadBalancer",
+                "elasticloadbalancing:DeleteLoadBalancer",
+                "elasticloadbalancing:DescribeLoadBalancers",
+                "elasticloadbalancing:ModifyLoadBalancerAttributes",
+                "elasticloadbalancing:CreateTargetGroup",
+                "elasticloadbalancing:DeleteTargetGroup",
+                "elasticloadbalancing:DescribeTargetGroups",
+                "elasticloadbalancing:RegisterTargets",
+                "elasticloadbalancing:DeregisterTargets",
+                "iam:PassRole",
+                "autoscaling:DescribeAutoScalingGroups",
+                "autoscaling:DescribeLaunchConfigurations",
+                "autoscaling:DescribeAutoScalingInstances",
+                "acm:DescribeCertificate",
+                "acm:ListCertificates"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
+
+
 ## Deploy ALB controller
 - Addding helm repo:
 
@@ -175,13 +218,13 @@ helm repo update eks
 ```
 - Install
 ```commandline
-   helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
-     -n kube-system \
-     --set clusterName=microdegree \
-     --set serviceAccount.create=false \
-     --set serviceAccount.name=aws-load-balancer-controller \
-     --set region=us-east-1 \
-     --set vpcId=vpc-00f45a5d71f90f766
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \            
+  -n kube-system \
+  --set clusterName=<your-cluster-name> \
+  --set serviceAccount.create=false \
+  --set serviceAccount.name=aws-load-balancer-controller \
+  --set region=<region> \
+  --set vpcId=<your-vpc-id>
 
 ```
 - Verify that the deployments are running
