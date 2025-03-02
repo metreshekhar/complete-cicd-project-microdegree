@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: naruto-flask-app
+  labels:
+    app: naruto-flask-app
+spec:
+  replicas: 2  # You can scale up the number of pods here
+  selector:
+    matchLabels:
+      app: naruto-flask-app
+  template:
+    metadata:
+      labels:
+        app: naruto-flask-app
+    spec:
+      containers:
+      - name: naruto-flask-app
+        image: manojkrishnappa/naruto-flask-app:1
+        ports:
+        - containerPort: 80  # This should match the exposed port of the Flask app (80 in your case)
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
