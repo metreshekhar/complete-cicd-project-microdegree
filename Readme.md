@@ -187,3 +187,6 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
 ```commandline
 kubectl get deployment -n kube-system aws-load-balancer-controller
 ```
+```commandline
+kubectl get ingress -n  game-2048
+```
