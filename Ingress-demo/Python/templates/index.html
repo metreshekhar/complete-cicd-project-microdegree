@@ -4,33 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ naruto_info.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Welcome to the Naruto World</h1>
-    </header>
+    <div class="content-container">
+        <h1>{{ naruto_info.title }}</h1>
+        <div class="description">
+            <p><strong>Description:</strong> {{ naruto_info.description }}</p>
+            <p><strong>Background:</strong> {{ naruto_info.background }}</p>
+            <p><strong>Goals:</strong> {{ naruto_info.goals }}</p>
+        </div>
 
-    <section>
-        <h2>{{ naruto_info.title }}</h2>
-        <p><strong>Description:</strong> {{ naruto_info.description }}</p>
-        <p><strong>Background:</strong> {{ naruto_info.background }}</p>
-        <p><strong>Goals:</strong> {{ naruto_info.goals }}</p>
         <h3>Famous Quotes</h3>
-        <ul>
+        <ul class="quotes">
             {% for quote in naruto_info.quotes %}
                 <li>{{ quote }}</li>
             {% endfor %}
         </ul>
-    </section>
 
-    <footer>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/characters">Characters</a></li>
-            </ul>
-        </nav>
-    </footer>
+        <div class="links">
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('characters_page') }}">Characters</a>
+        </div>
+    </div>
 </body>
 </html>

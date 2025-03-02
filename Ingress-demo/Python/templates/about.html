@@ -4,27 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Naruto</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <header>
-        <h1>About Naruto Uzumaki</h1>
-    </header>
+    <div class="content-container">
+        <h1>About {{ naruto_info.title }}</h1>
+        <div class="description">
+            <p><strong>Description:</strong> {{ naruto_info.description }}</p>
+            <p><strong>Background:</strong> {{ naruto_info.background }}</p>
+            <p><strong>Goals:</strong> {{ naruto_info.goals }}</p>
+        </div>
 
-    <section>
-        <p><strong>Born:</strong> Naruto Uzumaki was born as the son of the Fourth Hokage, Minato Namikaze, and his wife, Kushina Uzumaki. He was born into a world filled with conflict and hardship.</p>
-        <p><strong>Life:</strong> Naruto's life was marked by isolation as he was shunned by his village, the Hidden Leaf, due to the Nine-Tails Fox sealed within him. Despite this, Naruto always dreamed of becoming the Hokage to gain the respect of his village.</p>
-        <p><strong>Famous Quote:</strong> {{ naruto_info.quotes[0] }}</p>
-    </section>
-
-    <footer>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/characters">Characters</a></li>
-            </ul>
-        </nav>
-    </footer>
+        <div class="links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('characters_page') }}">Characters</a>
+        </div>
+    </div>
 </body>
 </html>
-
