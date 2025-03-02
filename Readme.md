@@ -142,10 +142,10 @@ You can follow same procedure in the official  AWS document [Getting started wit
     ![img_1.png](img_1.png)
 
     ```commandline
-    export cluster_name=demo-cluster
+    export cluster_name=microdegree
     ```
     ```
-   eksctl utils associate-iam-oidc-provider --cluster demo-cluster --approve
+   eksctl utils associate-iam-oidc-provider --cluster microdegree --approve
    ```        
    
     ```commandline
@@ -154,13 +154,13 @@ You can follow same procedure in the official  AWS document [Getting started wit
     ```
 
     ```commandline
-    eksctl create iamserviceaccount \
-      --cluster=demo-cluster \
-      --namespace=kube-system \
-      --name=aws-load-balancer-controller \
-      --role-name AmazonEKSLoadBalancerControllerRole \
-      --attach-policy-arn=arn:aws:iam::711387118002:policy/AWSLoadBalancerControllerIAMPolicy \
-      --approve
+   eksctl create iamserviceaccount \
+     --cluster=microdegree \
+     --namespace=kube-system \
+     --name=aws-load-balancer-controller \
+     --role-name AmazonEKSLoadBalancerControllerRole \
+     --attach-policy-arn=arn:aws:iam::711387118002:policy/AWSLoadBalancerControllerIAMPolicy \
+     --approve
     ```
    
 ## Deploy ALB controller
@@ -175,13 +175,14 @@ helm repo update eks
 ```
 - Install
 ```commandline
-helm install aws-load-balancer-controller eks/aws-load-balancer-controller \            
-  -n kube-system \
-  --set clusterName=<your-cluster-name> \
-  --set serviceAccount.create=false \
-  --set serviceAccount.name=aws-load-balancer-controller \
-  --set region=<region> \
-  --set vpcId=<your-vpc-id>
+   helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+     -n kube-system \
+     --set clusterName=microdegree \
+     --set serviceAccount.create=false \
+     --set serviceAccount.name=aws-load-balancer-controller \
+     --set region=us-east-1 \
+     --set vpcId=vpc-00f45a5d71f90f766
+
 ```
 - Verify that the deployments are running
 ```commandline

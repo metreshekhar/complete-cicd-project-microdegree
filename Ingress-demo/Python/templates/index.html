@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ naruto_info.title }}</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Naruto World</h1>
+    </header>
+
+    <section>
+        <h2>{{ naruto_info.title }}</h2>
+        <p><strong>Description:</strong> {{ naruto_info.description }}</p>
+        <p><strong>Background:</strong> {{ naruto_info.background }}</p>
+        <p><strong>Goals:</strong> {{ naruto_info.goals }}</p>
+        <h3>Famous Quotes</h3>
+        <ul>
+            {% for quote in naruto_info.quotes %}
+                <li>{{ quote }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/characters">Characters</a></li>
+            </ul>
+        </nav>
+    </footer>
+</body>
+</html>

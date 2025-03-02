@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Characters - Naruto</title>
+</head>
+<body>
+    <header>
+        <h1>Key Characters from Naruto</h1>
+    </header>
+
+    <section>
+        <ul>
+            {% for character in characters %}
+                <li>
+                    <h2>{{ character.name }}</h2>
+                    <p><strong>Role:</strong> {{ character.role }}</p>
+                    <img src="{{ character.image }}" alt="{{ character.name }}" width="200">
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <footer>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/characters">Characters</a></li>
+            </ul>
+        </nav>
+    </footer>
+</body>
+</html>
