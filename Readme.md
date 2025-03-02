@@ -153,19 +153,10 @@ You can follow same procedure in the official  AWS document [Getting started wit
     2025-03-02 06:30:12 [✔]  created IAM Open ID Connect provider for cluster "demo-cluster" in "us-east-1"
     ```
 
-    ```commandline
-   eksctl create iamserviceaccount \
-     --cluster=microdegree \
-     --namespace=kube-system \
-     --name=aws-load-balancer-controller \
-     --role-name AmazonEKSLoadBalancerControllerRole \
-     --attach-policy-arn=arn:aws:iam::711387118002:policy/AWSLoadBalancerControllerIAMPolicy \
-     --approve
-    ```
 
-Incare if policy deleted attach this below policy
+Incase if policy deleted attach this below policy in manual way
 
-
+- Policy name: AWSLoadBalancerControllerIAMPolicy
 
 ```json
 {
@@ -204,10 +195,28 @@ Incare if policy deleted attach this below policy
 }
 ```
 
-
-
 ## Deploy ALB controller
 - Addding helm repo:
+Download IAM policy
+```commandline
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.11.0/docs/install/iam_policy.json
+```
+- Create IAM Policy
+```commandline
+aws iam create-policy \
+    --policy-name AWSLoadBalancerControllerIAMPolicy \
+    --policy-document file://iam_policy.json
+```
+Create IAM Role
+```commandline
+eksctl create iamserviceaccount \
+  --cluster=<your-cluster-name> \
+  --namespace=kube-system \
+  --name=aws-load-balancer-controller \
+  --role-name AmazonEKSLoadBalancerControllerRole \
+  --attach-policy-arn=arn:aws:iam::<your-aws-account-id>:policy/AWSLoadBalancerControllerIAMPolicy \
+  --approve
+```
 
 ```commandline
 helm repo add eks https://aws.github.io/eks-charts
@@ -234,3 +243,4 @@ kubectl get deployment -n kube-system aws-load-balancer-controller
 ```commandline
 kubectl get ingress -n  game-2048
 ```
+
