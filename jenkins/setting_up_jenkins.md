@@ -169,11 +169,12 @@ subjects:
 [Create Token]
 
 ```token.yml
-apiversion: v1
+apiVersion: v1
 kind: Secret
-type: kubernetes.io/service-account-token
-metadata:  
-  name: mysecretname  
-  annotations:    
+metadata:
+  name: mysecretname
+  namespace: microdegree
+  annotations:
     kubernetes.io/service-account.name: jenkins
+type: kubernetes.io/service-account-token
 ```
