@@ -1,31 +1,47 @@
 import streamlit as st
-import pandas as pd
-from sklearn.datasets import load_iris
-from sklearn.ensemble import RandomForestClassifier
+import boto3
+from botocore.exceptions import NoCredentialsError
+import os
 
-@st.cache_data
-def load_data():
-    iris = load_iris()
-    df = pd.DataFrame(iris.data, columns=iris.feature_names)
-    df['species'] = iris.target
-    return df, iris.target_names
+# S3 Config
+AWS_ACCESS_KEY = ''
+AWS_SECRET_KEY = ''
+BUCKET_NAME = ''
+REGION = 'us-east-1'
 
-df,target_names=load_data()
+# Create S3 client
+s3 = boto3.client(
+    's3',
+    region_name=REGION,
+    aws_access_key_id=AWS_ACCESS_KEY,
+    aws_secret_access_key=AWS_SECRET_KEY
+)
 
-model=RandomForestClassifier()
-model.fit(df.iloc[:,:-1],df['species'])
+st.title("🗂️ S3 File Manager")
 
-st.sidebar.title("Input Features")
-sepal_length = st.sidebar.slider("Sepal length", float(df['sepal length (cm)'].min()), float(df['sepal length (cm)'].max()))
-sepal_width = st.sidebar.slider("Sepal width", float(df['sepal width (cm)'].min()), float(df['sepal width (cm)'].max()))
-petal_length = st.sidebar.slider("Petal length", float(df['petal length (cm)'].min()), float(df['petal length (cm)'].max()))
-petal_width = st.sidebar.slider("Petal width", float(df['petal width (cm)'].min()), float(df['petal width (cm)'].max()))
+# Upload section
+st.header("📤 Upload File to S3")
+upload_file = st.file_uploader("Choose a file to upload", type=None)
+if upload_file:
+    s3.upload_fileobj(upload_file, BUCKET_NAME, upload_file.name)
+    st.success(f"Uploaded `{upload_file.name}` successfully!")
 
-input_data = [[sepal_length, sepal_width, petal_length, petal_width]]
+# List files
+st.header("📁 Files in S3 Bucket")
+try:
+    contents = s3.list_objects_v2(Bucket=BUCKET_NAME)
+    if "Contents" in contents:
+        for obj in contents['Contents']:
+            filename = obj['Key']
+            col1, col2 = st.columns([3, 1])
+            col1.write(filename)
+            if col2.button("Download", key=filename):
+                s3.download_file(BUCKET_NAME, filename, filename)
+                with open(filename, "rb") as f:
+                    st.download_button(label="Click to download", data=f, file_name=filename)
+                os.remove(filename)
+    else:
+        st.info("No files found in the bucket.")
+except NoCredentialsError:
+    st.error("AWS credentials not found. Please check your configuration.")
 
-## PRediction
-prediction = model.predict(input_data)
-predicted_species = target_names[prediction[0]]
-
-st.write("Prediction")
-st.write(f"The predicted species is: {predicted_species}")
