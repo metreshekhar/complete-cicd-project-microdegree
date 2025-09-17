@@ -69,7 +69,7 @@ pipeline {
         stage('Updating the Cluster') {
             steps {
                 script {
-                    sh "aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}"
+                    sh "aws eks update-kubeconfig --region ${ap-south-1} --name ${microdegree-cluster}"
                 }
             }
         }
