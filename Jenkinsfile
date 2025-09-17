@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_TAG = "20250801"
         IMAGE_NAME = "shekharmethre/fullstack"
-        AWS_REGION = "us-east-1"
+        AWS_REGION = "ap-south-1"
         CLUSTER_NAME = "microdegree-cluster"
     }
 
